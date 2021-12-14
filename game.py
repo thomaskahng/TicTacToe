@@ -75,9 +75,6 @@ class HumanVsHuman:
             except IndexError as i:
                 print("Invalid selection!")
 
-
-
-
 class HumanVsComputer:
     def __init__(self):
         # See if human is ready
@@ -136,28 +133,80 @@ class HumanVsComputer:
                 if self.game.turns == 1:
                     # Take middle if possible (put in board at the end)
                     if len(self.game.spaces_taken[4]) == 0:
-                        put_x = 4
+                        self.put_in_board(4, 'X')
 
                     # Else, randomly pick another space (put in board at the end)
                     else:
-                        rand = randint(0, 7)
-                        if rand >= 4:
-                            put_x = rand + 1
-                        else:
-                            put_x = rand
-                    self.put_in_board(put_x, 'X')
+                        rand = randint(0, 3)
+                        if rand == 0:
+                            self.put_in_board(0, 'X')
+                        elif rand == 1:
+                            self.put_in_board(2, 'X')
+                        elif rand == 2:
+                            self.put_in_board(6, 'X')
+                        elif rand == 3:
+                            self.put_in_board(8, 'X')
 
                 else:
                     # Try to chase win
-                    self.block_or_chase_win("Chase")
+                    if self.computer_took_turn is False:
+                        self.block_or_chase_win("Chase")
 
                     # If computer hasn't took turn yet, block possible player's win
                     if self.computer_took_turn is False:
                         self.block_or_chase_win("Block")
 
+                    # If computer hasn't took turn, prevent win on diagonal
+                    if self.computer_took_turn is False:
+                        self.prevent_diagonal()
+
                     # If no win to chase or win to block, make a sequence
                     if self.computer_took_turn is False:
                         self.make_sequence()
+
+    def prevent_diagonal(self):
+        # If top right to bottom left is X,O,X
+        if self.game.spaces_taken[2] == "Human" and self.game.spaces_taken[4] == "Computer" and self.game.spaces_taken[6] == "Human":
+            # Take top middle space
+            if self.game.spaces_taken[1] == "":
+                self.put_in_board(1, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[3] == "":
+                self.put_in_board(3, 'X')
+                self.computer_took_turn = True
+
+            # Take middle right space
+            elif self.game.spaces_taken[5] == "":
+                self.put_in_board(5, 'X')
+                self.computer_took_turn = True
+
+            # Take bottom middle space
+            elif self.game.spaces_taken[7] == "":
+                self.put_in_board(7, 'X')
+                self.computer_took_turn = True
+
+        # If top left to bottom right is X,O,X
+        elif self.game.spaces_taken[0] == "Human" and self.game.spaces_taken[4] == "Computer" and self.game.spaces_taken[8] == "Human":
+            # Take top middle space
+            if self.game.spaces_taken[1] == "":
+                self.put_in_board(1, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[3] == "":
+                self.put_in_board(3, 'X')
+                self.computer_took_turn = True
+
+            # Take middle right space
+            elif self.game.spaces_taken[5] == "":
+                self.put_in_board(5, 'X')
+                self.computer_took_turn = True
+
+            # Take bottom middle space
+            elif self.game.spaces_taken[7] == "":
+                self.put_in_board(7, 'X')
                 self.computer_took_turn = True
 
     def make_sequence(self):
