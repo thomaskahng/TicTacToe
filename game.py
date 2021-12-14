@@ -160,9 +160,62 @@ class HumanVsComputer:
                     if self.computer_took_turn is False:
                         self.prevent_diagonal()
 
+                    # If computer hasn't took turn, prevent win on diagonal
+                    if self.computer_took_turn is False:
+                        self.prevent_diagonal2()
+
                     # If no win to chase or win to block, make a sequence
                     if self.computer_took_turn is False:
                         self.make_sequence()
+
+    def prevent_diagonal2(self):
+        # If top right to bottom left is O,O,X
+        if self.game.spaces_taken[2] == "Human" and self.game.spaces_taken[4] == "Human" and self.game.spaces_taken[6] == "Computer":
+            # Take top middle space
+            if self.game.spaces_taken[0] == "":
+                self.put_in_board(0, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[8] == "":
+                self.put_in_board(8, 'X')
+                self.computer_took_turn = True
+
+        # If top right to bottom left is X,O,O
+        elif self.game.spaces_taken[2] == "Computer" and self.game.spaces_taken[4] == "Human" and self.game.spaces_taken[6] == "Human":
+            # Take top middle space
+            if self.game.spaces_taken[0] == "":
+                self.put_in_board(0, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[8] == "":
+                self.put_in_board(8, 'X')
+                self.computer_took_turn = True
+
+        # If top left to bottom right is O,O,X
+        elif self.game.spaces_taken[0] == "Human" and self.game.spaces_taken[4] == "Human" and self.game.spaces_taken[8] == "Computer":
+            # Take top middle space
+            if self.game.spaces_taken[2] == "":
+                self.put_in_board(2, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[6] == "":
+                self.put_in_board(6, 'X')
+                self.computer_took_turn = True
+
+        # If top left to bottom right is X,O,O
+        elif self.game.spaces_taken[0] == "Computer" and self.game.spaces_taken[4] == "Human" and self.game.spaces_taken[8] == "Human":
+            # Take top middle space
+            if self.game.spaces_taken[2] == "":
+                self.put_in_board(2, 'X')
+                self.computer_took_turn = True
+
+            # Take middle left space
+            elif self.game.spaces_taken[6] == "":
+                self.put_in_board(6, 'X')
+                self.computer_took_turn = True
 
     def prevent_diagonal(self):
         # If top right to bottom left is X,O,X
