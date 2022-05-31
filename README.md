@@ -1,4 +1,4 @@
-# Sample Output
+# Sample Run
 
 ![Screenshot 2022-05-30 192055](https://user-images.githubusercontent.com/76675748/171070707-0be1609d-6491-4fa7-9538-57740ebc93e7.png)
 
